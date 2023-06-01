@@ -12,5 +12,18 @@ before_install:
 script:
   - docker run -e CI=true hjcho93/docker-react-app npm run test -- --coverage
 
-after_success:
-  - echo "Test Success!!!"
+#after_success:
+#  - echo "Test Success!!!"
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-northeast-2"  #aws서울서버
+  app: "eb-docker-app"  #app 이름
+  env: "Eb-docker-app-env"  #환경이름
+  bucket_name: "elasticbeanstalk-ap-northeast-2-096561175981" #s3 스토리지 관련
+  bucket_path: "eb-docker-app"  #app 이름과 똑같이 넣어주면됨
+  on:
+    branch: master  #master 브랜치에 소스코드가 변경될때만 eb 배포
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: $AWS_SECRET_ACCESS_KEY
+  
